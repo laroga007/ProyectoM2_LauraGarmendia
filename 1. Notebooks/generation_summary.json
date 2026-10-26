@@ -1,0 +1,310 @@
+{
+  "generation_date": "2026-10-15T12:45:42",
+  "reference_date": "2026-10-15T12:35:00",
+  "seed": 42,
+  "total_records": 505650,
+  "table_counts": {
+    "vehicles": 200,
+    "drivers": 400,
+    "routes": 50,
+    "trips": 100000,
+    "deliveries": 400000,
+    "maintenance": 5000
+  },
+  "validations_passed": true,
+  "validations": [
+    {
+      "check": "Volumen - vehicles != 200",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Volumen - drivers != 400",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Volumen - routes != 50",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Volumen - trips != 100000",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Volumen - deliveries != 400000",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Volumen - maintenance != 5000",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Integridad - trips sin vehículo válido",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Integridad - trips sin conductor válido",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Integridad - trips sin ruta válida",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Integridad - deliveries sin trip válido",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Integridad - maintenance sin vehículo válido",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - trips con arrival <= departure",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - trips en el futuro",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - status incoherente con arrival",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - entregas fuera del intervalo del viaje",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - delivered sin fecha / pending con fecha",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - viaje antes de la contratación del conductor",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - viaje con licencia vencida",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - viaje antes de adquirir el vehículo",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Temporal - mantenimiento fuera de rango",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Horarios - conductor con viajes superpuestos",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Horarios - vehículo con viajes superpuestos",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Capacidad - trips que exceden capacidad del vehículo",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Capacidad - paquetes que suman más que el viaje",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Capacidad - motocicletas en rutas largas",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - viajes con menos de 2 o más de 6 entregas",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - entregas en ciudad distinta al destino",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - firma sin entrega",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - origen igual a destino",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - valores no positivos",
+      "violations": 0,
+      "ok": true
+    },
+    {
+      "check": "Negocio - tracking number vacío",
+      "violations": 0,
+      "ok": true
+    }
+  ],
+  "distributions": {
+    "Entregas por viaje": [
+      {
+        "entregas_por_viaje": 2,
+        "viajes": 10012,
+        "pct": 10.0
+      },
+      {
+        "entregas_por_viaje": 3,
+        "viajes": 20215,
+        "pct": 20.2
+      },
+      {
+        "entregas_por_viaje": 4,
+        "viajes": 39672,
+        "pct": 39.7
+      },
+      {
+        "entregas_por_viaje": 5,
+        "viajes": 19963,
+        "pct": 20.0
+      },
+      {
+        "entregas_por_viaje": 6,
+        "viajes": 10138,
+        "pct": 10.1
+      }
+    ],
+    "Flota por tipo": [
+      {
+        "vehicle_type": "Camión Mediano",
+        "vehiculos": 63,
+        "viajes": 33488,
+        "l_100km": 23.5
+      },
+      {
+        "vehicle_type": "Van",
+        "vehiculos": 61,
+        "viajes": 30566,
+        "l_100km": 12.9
+      },
+      {
+        "vehicle_type": "Camión Grande",
+        "vehiculos": 60,
+        "viajes": 31851,
+        "l_100km": 35.3
+      },
+      {
+        "vehicle_type": "Motocicleta",
+        "vehiculos": 16,
+        "viajes": 4095,
+        "l_100km": 3.5
+      }
+    ],
+    "Estados": [
+      {
+        "tabla": "trips",
+        "estado": "completed",
+        "count": 99981
+      },
+      {
+        "tabla": "trips",
+        "estado": "in_progress",
+        "count": 19
+      },
+      {
+        "tabla": "deliveries",
+        "estado": "delivered",
+        "count": 399964
+      },
+      {
+        "tabla": "deliveries",
+        "estado": "pending",
+        "count": 36
+      },
+      {
+        "tabla": "vehicles",
+        "estado": "maintenance",
+        "count": 18
+      },
+      {
+        "tabla": "vehicles",
+        "estado": "active",
+        "count": 182
+      },
+      {
+        "tabla": "drivers",
+        "estado": "inactive",
+        "count": 23
+      },
+      {
+        "tabla": "drivers",
+        "estado": "active",
+        "count": 377
+      }
+    ],
+    "Puntualidad (retraso > 30 min)": [
+      {
+        "pct_retrasadas": 13.4,
+        "min_promedio_diferencia": 17.0
+      }
+    ],
+    "Viajes por mes (primeros/últimos)": [
+      {
+        "mes": "2024-10",
+        "viajes": 2055
+      },
+      {
+        "mes": "2024-11",
+        "viajes": 3756
+      },
+      {
+        "mes": "2024-12",
+        "viajes": 4675
+      },
+      {
+        "mes": "2026-10",
+        "viajes": 2153
+      },
+      {
+        "mes": "2026-09",
+        "viajes": 4417
+      },
+      {
+        "mes": "2026-08",
+        "viajes": 4541
+      }
+    ],
+    "Mantenimiento por vehículo": [
+      {
+        "min": 1,
+        "promedio": 25.0,
+        "max": 36,
+        "viajes_por_mantenimiento_objetivo": 20.0,
+        "viajes_por_mantenimiento_real": 20.0
+      }
+    ]
+  }
+}

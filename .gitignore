@@ -1,0 +1,21 @@
+# Archivos del sistema y de herramientas
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.log
+
+# Material del curso (no se publica)
+Presentación del PI.pptx
+Criterios de evaluación _ PIM2.xlsx
+FleetLogix_guia_configuración_inicial.pdf
+entregables_y_paso_a_paso_AWS.pdf
+
+# Plantillas del profesor: entran al repo a medida que se trabajan los avances
+A1-01_data_generation_estudiantes.py
+A2-03_optimization_indexes.sql
+A3-04_dimensional_model.sql
+A3-05_etl_pipeline_estudiantes.py
+A4-06_aws_setup.py
+A4-lambda_functions.py
+02_queries_analysis.sql
+aws_architecture_diagram.png
