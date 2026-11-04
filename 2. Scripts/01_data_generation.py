@@ -285,7 +285,6 @@ class DataGenerator:
         20 pares origen-destino. Rutas por par: 3 si involucra Bogotá (8 pares = 24),
         3 para Barranquilla<->Cartagena (corredor costero corto, 2 pares = 6) y
         2 para el resto (10 pares = 20). Total = 50.
-        (La plantilla original producía solo 48 rutas.)
         """
         log.info("Generando %d rutas...", count)
         rows, code = [], 1
