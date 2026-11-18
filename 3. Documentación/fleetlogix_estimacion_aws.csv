@@ -1,0 +1,25 @@
+﻿Resumen de la estimación
+Costo inicial,Costo mensual,Total 12 months cost,Divisa
+0,35.71,428.52,USD
+,,* Incluye el costo inicial
+
+
+Estimación detallada
+Jerarquía de grupos,Región,Descripción,Servicio,Inicial,Mensual,First 12 months total,Divisa,Estado,Resumen de configuración
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix- flujo GPS,Amazon Kinesis Data Streams,0,11.01,132.12,USD,,"Duración de la retención de datos (1 días), Número de registros de base de referencia (1.67 por segundo), Número máximo de registros (4 por segundo), Cantidad de aplicaciones de consumidor (2)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - base operacional,Amazon RDS for PostgreSQL,0,13.98,167.76,USD,,"Cantidad de almacenamiento (20 GB), Volumen de almacenamiento (SSD de uso general (gp3)), Nodos (1), Tipo de instancia (db.t4g.micro), Utilización (solo bajo demanda) (100 %Utilized/Month), Opción de implementación (Single-AZ), Modelo de precios (OnDemand)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - entrada de app,Amazon API Gateway,0,4.39,52.68,USD,,"Unidades de solicitudes de la API HTTP (número exacto), Tamaño promedio de cada solicitud (1 KB), Unidades de solicitud de la API REST (millones), Tamaño de memoria caché (GB) (Ninguno), Unidades de mensaje WebSocket (miles), Tamaño promedio del mensaje (32 KB), Solicitudes (4390000 por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - GPS a S3,Amazon Data firehose,0,0.6,7.20,USD,,"Tipo de origen (Secuencia de datos Direct PUT o Kinesis), Partición dinámica (complemento) (Desactivado), Proporción promedio de datos procesados con respecto a la VPC frente a los datos incorporados (1.3), Unidades de registros de datos (número exacto), Tamaño del registro (1 KB), Conversión de formato de datos (opcional) (Desactivado), Número de registros para la incorporación de datos (4320000 por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - 4 funciones,AWS Lambda,0,0.1,1.20,USD,,"Arquitectura (x86), Cantidad de almacenamiento efímero asignado (512 MB), Arquitectura (x86), Modo de invocación (En búfer), Cantidad de solicitudes (122000 por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - estado actual,DynamoDB on-demand capacity,0,1.1,13.20,USD,,"Clase de tabla (Estándar), Tamaño promedio del elemento (todos los atributos) (1 KB), Tamaño del almacenamiento de datos (1 GB)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - historico,S3 Standard,0,0.21,2.52,USD,,"Almacenamiento de S3 Estándar (7 GB por mes), Solicitudes PUT, COPY, POST y LIST a S3 Standard (9000), Solicitudes GET, SELECT y todas las demás desde S3 Estándar (10000), Datos devueltos por S3 Select (0 GB por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - historico,Data Transfer,0,0,0.00,USD,,
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - monitoreo,Amazon CloudWatch,0,3.9135,46.96,USD,,"Número de eventos de OTEL móvil y spans, o spans por visita (70), Frecuencia de muestreo móvil (1), Cantidad de métricas (incluye las métricas personalizadas y detalladas) (4), GetMetricData: cantidad de métricas solicitadas (0), Cantidad de vCPU supervisadas por Información de bases de datos (0 por hora), Cantidad de unidades de capacidad (ACU) de Aurora supervisadas por Información de bases de datos (0 por hora), Cantidad de unidades de capacidad (ACU) de Aurora supervisadas por Información de bases de datos (0 por hora), Cantidad de paneles (1), Cantidad de métricas de las alarmas de resolución estándar (12), Cantidad de métricas de las alarmas de alta resolución (0), Cantidad de alarmas compuestas (0), Cantidad de reglas de Contributor Insights para CloudWatch (), Registros estándares: datos incorporados (3 GB)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - credenciales,AWS Secrets Manager,0,0.41000000000000003,4.92,USD,,"Número de secretos (1), Duración media de cada secreto (30 días), Número de llamadas a la API (1000 por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - alertas,Standard topics,0,0,0.00,USD,,"Solicitudes (1100 por mes), Notificaciones por EMAIL o EMAIL-JSON (1000 por mes)"
+FleetLogix,Este de EE. UU. (Norte de Virginia),FleetLogix - programacion ETA,Amazon EventBridge,0,0,0.00,USD,,"Tamaño de la carga útil (1 KB), Número de invocaciones (8640 por mes)"
+
+
+
+Reconocimiento
+"* La Calculadora de precios de AWS proporciona únicamente una estimación de sus tarifas de AWS y no incluye los impuestos que puedan aplicarse. El valor real de sus tarifas depende de una serie de factores, entre los que se incluye su uso real de AWS."

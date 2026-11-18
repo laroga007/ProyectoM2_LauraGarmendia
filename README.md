@@ -2,7 +2,16 @@
 
 **Henry Data Science · Módulo 2 (SQL)** — Laura Garmendia
 
-FleetLogix es una empresa de transporte y logística que opera una flota de 200 vehículos y hace entregas de última milla en 5 ciudades de Colombia. El proyecto parte de una base PostgreSQL con el modelo relacional (6 tablas vacías): se pobló con datos sintéticos coherentes, se usó para responder preguntas de negocio con SQL y se llevó a un Data Warehouse en Snowflake.
+FleetLogix es una empresa de transporte y logística que opera una flota de 200 vehículos y hace entregas de última milla en 5 ciudades de Colombia. El proyecto parte de una base PostgreSQL con el modelo relacional (6 tablas vacías): se pobló con datos sintéticos coherentes, se usó para responder preguntas de negocio con SQL, se llevó a un Data Warehouse en Snowflake y se diseñó su arquitectura en la nube con AWS.
+
+**Tipo de proyecto.** Es un trabajo de **ingeniería de datos**: el objetivo no es extraer conclusiones de un conjunto de datos, sino construir la infraestructura que permite registrar, consultar y analizar los datos de la empresa de forma confiable, rápida y automática. Cada avance agrega una capa a esa plataforma:
+
+| Avance | Capa | Pregunta que responde |
+|---|---|---|
+| 1 | Base operacional (PostgreSQL) | ¿Los datos son coherentes y respetan las reglas del negocio? |
+| 2 | Consultas y rendimiento (SQL, índices) | ¿Se pueden responder preguntas de negocio, y rápido? |
+| 3 | Data Warehouse y ETL (Snowflake) | ¿Se puede analizar la historia sin tocar la base operacional, con cargas automáticas? |
+| 4 | Arquitectura en la nube (AWS) | ¿Cómo entran los datos en tiempo real desde los camiones y cómo escala todo? |
 
 ## Estado del proyecto
 
@@ -11,6 +20,7 @@ FleetLogix es una empresa de transporte y logística que opera una flota de 200 
 | 1 | Análisis del modelo y generación de datos sintéticos | ✅ Completo |
 | 2 | Análisis y optimización de queries SQL | ✅ Completo |
 | 3 | Data Warehouse en Snowflake y pipeline ETL | ✅ Completo |
+| 4 | Arquitectura en la nube con AWS | ✅ Completo |
 
 ## Avance 1: qué se hizo
 
@@ -63,7 +73,7 @@ FleetLogix es una empresa de transporte y logística que opera una flota de 200 
 | Q12 | 38,5 | 22,3 | 42% |
 | **Q9 inicial → ajustada + índices** | **801,9** | **17,5** | **98%** |
 
-Q1, Q2 (tablas de 200 y 400 filas) y Q5 (necesita leer todos los viajes) no mejoran con índices; el análisis completo está en el notebook.
+Q1, Q2 (tablas de 200 y 400 filas) y Q5 (necesita leer todos los viajes) no mejoran con índices; el análisis completo está en el notebook. El detalle de cada consulta (SQL, resultado, análisis y rendimiento) está en `3. Documentación/Manual_Consultas_SQL.pdf`.
 
 ## Avance 3: qué se hizo
 
@@ -87,6 +97,27 @@ Q1, Q2 (tablas de 200 y 400 filas) y Q5 (necesita leer todos los viajes) no mejo
 
 Se realizaron ajustes sobre los scripts base (claves de dimensión, SCD tipo 2, granularidad de `dim_time`, reparto de métricas del viaje entre sus entregas y carga en bloque); están detallados en los comentarios de cada script y en el notebook.
 
+## Avance 4: qué se hizo
+
+Según la consigna, el foco es comprender y documentar la arquitectura, no implementarla: no se crearon recursos en AWS.
+
+**1. Arquitectura propuesta** (`aws_architecture_diagram.png`): API Gateway y Kinesis como entrada; 4 funciones Lambda (registrar evento, verificar entrega, calcular ETA y alerta de desvío); DynamoDB para el estado actual; RDS PostgreSQL como base operacional migrada; S3 para el histórico; SNS para alertas; IAM, KMS, Secrets Manager y CloudWatch como servicios transversales; y la conexión con el Data Warehouse del avance 3. Se ajustó el diagrama de referencia para que coincida con lo que hace el código.
+
+**2. Análisis** (`AWS_Análisis_Arquitectura.pdf`): recursos que crean `aws_setup.py` y `lambda_functions.py`; la función `verificar-entrega` y la migración `migrar_datos_postgresql()` en profundidad; monitoreo con CloudWatch; seguridad (IAM con mínimo privilegio, cifrado, credenciales fuera del código); y observaciones sobre el material de base.
+
+**3. Costos** con la AWS Pricing Calculator: **US$ 35,71 por mes** (límite: US$ 50), con el detalle en `fleetlogix_estimacion_aws.csv`. RDS y Kinesis explican el 70 %; el 71 % del costo es fijo (servicios encendidos las 24 horas) y el 29 %, por uso.
+
+**4. Maqueta local** (`Avance_4_CloudArchitecture.ipynb`): ejecuta las funciones Lambda de base y una versión ajustada (`lambda_functions_propuesta.py`) contra los datos reales, con DynamoDB y SNS simulados en memoria. Muestra que las funciones de base no funcionarían tal como están (formato de los eventos de API Gateway y Kinesis, tipos de datos de DynamoDB, falsas alarmas de desvío, ETA en línea recta) y que la versión propuesta resuelve esos casos.
+
+## Extra: panel interactivo (Streamlit)
+
+`2. Scripts/06_dashboard_streamlit.py` es un panel web que consulta el Data Warehouse del avance 3 en Snowflake y muestra:
+- **Indicadores:** entregas, puntualidad, retraso promedio, ingresos y margen estimados.
+- **Filtros:** período, ciudad de origen y tipo de vehículo.
+- **Gráficos y tablas:** entregas y puntualidad por mes, puntualidad según la hora programada, comparación por tipo de vehículo y rutas ordenadas de menor a mayor margen, con su distancia y puntualidad.
+
+SQL resuelve en Snowflake las uniones del modelo estrella, los filtros y las agregaciones; Python arma los filtros, envía las consultas con parámetros y muestra los resultados. El panel incluye las consultas SQL que ejecuta. Las capturas están en `3. Documentación/capturas_dashboard/`.
+
 ## Estructura del repositorio
 
 ```
@@ -97,19 +128,30 @@ ProyectoM2_LauraGarmendia/
 │   ├── Avance_1_DataGeneration.ipynb   # Análisis, generación y control de calidad
 │   ├── Avance_2_SQLAnalysis.ipynb      # Análisis de queries y optimización
 │   ├── Avance_3_DataWarehouse.ipynb    # Modelo estrella, ETL y verificación en Snowflake
+│   ├── Avance_4_CloudArchitecture.ipynb # Maqueta local de la arquitectura AWS y costos
 │   └── generation_summary.json         # Resumen de la carga y de las validaciones
 ├── 2. Scripts/
 │   ├── 01_data_generation.py           # Generación y carga de datos
 │   ├── 02_queries_analysis.sql         # Las 8 queries comentadas (incluye Q9 ajustada)
 │   ├── 03_optimization_indexes.sql     # Índices, ajuste de configuración y resultados
 │   ├── 04_dimensional_model.sql        # Data Warehouse en Snowflake (tablas, vistas y roles)
-│   └── 05_etl_pipeline.py              # Pipeline ETL PostgreSQL → Snowflake
+│   ├── 05_etl_pipeline.py              # Pipeline ETL PostgreSQL → Snowflake
+│   ├── 06_dashboard_streamlit.py       # Panel interactivo sobre el Data Warehouse
+│   ├── aws_architecture_diagram.png    # Diagrama de la arquitectura AWS
+│   └── lambda_functions/
+│       ├── lambda_functions.py          # Funciones Lambda de base (sin cambios)
+│       └── lambda_functions_propuesta.py # Versión ajustada, probada en la maqueta
 └── 3. Documentación/
+    ├── README.pdf                      # Esta guía en PDF
+    ├── Manual_Consultas_SQL.pdf        # Las 8 consultas: SQL, resultados, análisis y rendimiento
     ├── diagrama_ER_fleetlogix.png      # Diagrama Entidad-Relación
     ├── data_dictionary.xlsx            # Diccionario de datos
     ├── diagrama_estrella_fleetlogix.png # Diagrama del modelo estrella
     ├── capturas_avance2/               # Evidencia de EXPLAIN ANALYZE en DBeaver
-    └── capturas_avance3/               # Evidencia del Data Warehouse en Snowsight
+    ├── capturas_avance3/               # Evidencia del Data Warehouse en Snowsight
+    ├── capturas_dashboard/             # Capturas del panel interactivo (Streamlit)
+    ├── AWS_Análisis_Arquitectura.pdf   # Análisis de la arquitectura AWS
+    └── fleetlogix_estimacion_aws.csv   # Estimación de la AWS Pricing Calculator
 ```
 
 ## Cómo ejecutarlo
@@ -139,8 +181,29 @@ ProyectoM2_LauraGarmendia/
      python "2. Scripts/05_etl_pipeline.py" --schedule                   # todos los días a las 02:00
      ```
 
+6. Avance 4: ejecutar el notebook `1. Notebooks/Avance_4_CloudArchitecture.ipynb` (solo necesita la base local; no requiere cuenta de AWS). La estimación de costos se puede abrir en la [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=033a8e3173b6e136d9389bc7758012aed2b26d67).
+
+7. Panel interactivo (requiere el Data Warehouse del avance 3 cargado y la misma clave de Snowflake que el ETL):
+   ```
+   python3 -m pip install streamlit
+   python3 -m streamlit run "2. Scripts/06_dashboard_streamlit.py"
+   ```
+   Se abre en el navegador, en `http://localhost:8501`. Se cierra con Ctrl + C en la terminal.
+
 El script de generación usa una semilla fija (`SEED = 42`): genera siempre los mismos datos. Se puede re-ejecutar sin duplicar registros, porque vacía las tablas antes de cargar.
+
+## Cierre
+
+El proyecto completa el recorrido de una plataforma de datos: una base operacional validada (avance 1), consultas optimizadas para responder preguntas de negocio (avance 2), un Data Warehouse con carga automática para el análisis histórico (avance 3) y una arquitectura en la nube que incorpora los datos en tiempo real (avance 4).
+
+En el camino, la plataforma también dejó ver cómo opera FleetLogix:
+- **Retraso estructural:** cerca del 13 % de las entregas llega tarde, todos los días y en todos los turnos (avances 2 y 3). Con la arquitectura del avance 4 pasa a medirse en tiempo real, con una alarma de puntualidad.
+- **Licencias:** hay conductores con licencia vencida o por vencer (avance 2), un riesgo que puede convertirse en alerta automática.
+- **Calidad de los cálculos:** un JOIN mal planteado multiplicaba los costos de mantenimiento unas 600 veces (Q9 del avance 2). Por eso cada carga se concilia contra la fuente, como hace el ETL del avance 3.
+- **Tarifa:** con la tarifa de ejemplo, que cobra por peso y no por distancia, las rutas de más de 800 km dan pérdida (avance 3).
+
+En los cuatro avances se aplicó el mismo criterio: revisar el material de base, medir antes de decidir y verificar cada resultado contra la fuente.
 
 ## Tecnologías
 
-PostgreSQL 16 · Docker · DBeaver · Snowflake · Python (pandas, numpy, Faker, psycopg2, snowflake-connector, schedule, matplotlib) · Jupyter · VS Code
+PostgreSQL 16 · Docker · DBeaver · Snowflake · AWS (diseño y AWS Pricing Calculator) · Python (pandas, numpy, Faker, psycopg2, snowflake-connector, schedule, matplotlib, Streamlit) · Jupyter · VS Code
